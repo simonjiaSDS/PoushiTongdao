@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+*.xcuserstate
+*.xcuserdatad
+*.moved-aside
+DerivedData/
+build/
+
+# CocoaPods
+Pods/
+
+# Archives
+*.ipa
+*.dSYM.zip
+*.xcarchive.zip

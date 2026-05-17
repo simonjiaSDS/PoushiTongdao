@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>普世同祷 - 司铎专用</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2c3e50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <!-- 首页：日历 -->
+  <div id="page-home" class="page active">
+    <header class="page-header">
+      <h1>📅 普世同祷</h1>
+      <span class="header-date" id="today-display"></span>
+    </header>
+    <div class="calendar-container" id="calendar-container">
+      <!-- 日历由JS动态生成 -->
+    </div>
+  </div>
+
+  <!-- 普世同祷子菜单页 -->
+  <div id="page-prayer" class="page">
+    <header class="page-header">
+      <button class="btn-back" data-action="goBack">‹ 返回</button>
+      <h1 id="prayer-date-title">普世同祷</h1>
+    </header>
+    <nav class="sub-tabs" id="prayer-tabs">
+      <button class="tab active" data-tab="reading">弥撒读经</button>
+      <button class="tab" data-tab="lecture">诵读</button>
+      <button class="tab" data-tab="morning">晨祷</button>
+      <button class="tab" data-tab="day">日祷</button>
+      <button class="tab" data-tab="evening">晚祷</button>
+      <button class="tab" data-tab="night">夜祷</button>
+    </nav>
+    <div class="tab-content" id="tab-content">
+      <p class="empty-hint">请选择上方的礼仪内容</p>
+    </div>
+  </div>
+
+  <!-- 感恩祭经文页 -->
+  <div id="page-mass" class="page">
+    <header class="page-header">
+      <button class="btn-back" data-action="goBack">‹ 返回</button>
+      <h1>感恩祭经文</h1>
+      <button class="btn-icon" data-action="showAddDialog" data-type="mass" title="添加经文">＋</button>
+    </header>
+    <div class="list-container" id="mass-list">
+      <!-- 由JS生成 -->
+    </div>
+  </div>
+
+  <!-- 亡者礼仪页 -->
+  <div id="page-funeral" class="page">
+    <header class="page-header">
+      <button class="btn-back" data-action="goBack">‹ 返回</button>
+      <h1>亡者礼仪</h1>
+      <button class="btn-icon" data-action="showAddDialog" data-type="funeral" title="添加礼仪">＋</button>
+    </header>
+    <div class="list-container" id="funeral-list">
+      <!-- 由JS生成 -->
+    </div>
+  </div>
+
+  <!-- 其他礼仪页 -->
+  <div id="page-blessing" class="page">
+    <header class="page-header">
+      <button class="btn-back" data-action="goBack">‹ 返回</button>
+      <h1>其他礼仪</h1>
+      <button class="btn-icon" data-action="showAddDialog" data-type="blessing" title="添加礼仪">＋</button>
+    </header>
+    <div class="list-container" id="blessing-list">
+      <!-- 由JS生成 -->
+    </div>
+  </div>
+
+  <!-- 设置页 -->
+  <div id="page-settings" class="page">
+    <header class="page-header">
+      <button class="btn-back" data-action="goBack">‹ 返回</button>
+      <h1>设置</h1>
+    </header>
+    <div class="settings-container">
+      <div class="setting-group">
+        <h3>数据管理</h3>
+        <button class="btn-setting" data-action="importPrayerData">📥 导入普世同祷数据</button>
+        <button class="btn-setting" data-action="importOtherData">📥 导入其他数据</button>
+        <button class="btn-setting" data-action="exportPrayerData">📤 导出祈祷数据</button>
+        <button class="btn-setting" data-action="exportOtherData">📤 导出其他数据</button>
+        <button class="btn-setting" data-action="updatePrayerData">🔄 更新普世同祷数据</button>
+        <button class="btn-setting btn-danger" data-action="clearAllData">🗑️ 清除所有数据</button>
+      </div>
+      <div class="setting-group">
+        <h3>字体大小：<span id="font-size-label">15px</span></h3>
+        <div style="display:flex;align-items:center;gap:10px;padding:4px 0;">
+          <span style="font-size:12px;color:#999;">A</span>
+          <input type="range" id="font-size-slider" min="12" max="28" value="15" style="flex:1;">
+          <span style="font-size:22px;color:#2c3e50;font-weight:bold;">A</span>
+        </div>
+      </div>
+      <div class="setting-group">
+        <h3>关于</h3>
+        <p class="about-text">普世同祷 司铎专用版 v1.0<br>由FR.SimonJiaSDS设计</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 内容详情页 -->
+  <div id="page-detail" class="page">
+    <header class="page-header">
+      <button class="btn-back" data-action="goBack">‹ 返回</button>
+      <h1 id="detail-title">详情</h1>
+      <button class="btn-icon" id="btn-edit" data-action="enterEditMode" title="编辑">✎</button>
+      <button class="btn-icon" id="btn-save" style="display:none" data-action="saveEdit" title="保存">✔</button>
+      <button class="btn-icon" id="btn-cancel-edit" style="display:none" data-action="cancelEdit" title="取消">✕</button>
+    </header>
+    <div class="detail-content" id="detail-content">
+      <!-- 内容由JS填充 -->
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="nav-item active" data-page="home">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">普世同祷</span>
+    </button>
+    <button class="nav-item" data-page="mass">
+      <span class="nav-icon">🙏</span>
+      <span class="nav-label">感恩祭经文</span>
+    </button>
+    <button class="nav-item" data-page="funeral">
+      <span class="nav-icon">⚰️</span>
+      <span class="nav-label">亡者礼仪</span>
+    </button>
+    <button class="nav-item" data-page="blessing">
+      <span class="nav-icon">✨</span>
+      <span class="nav-label">其他礼仪</span>
+    </button>
+    <button class="nav-item" data-page="settings">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">设置</span>
+    </button>
+  </nav>
+
+  <!-- 通用添加对话框 -->
+  <div class="modal-overlay" id="modal-add-item">
+    <div class="modal">
+      <h3 id="modal-add-title">添加</h3>
+      <label>标题</label>
+      <input type="text" id="modal-item-title" placeholder="请输入标题">
+      <label>内容</label>
+      <textarea id="modal-item-content" rows="6" placeholder="请输入内容..."></textarea>
+      <div class="modal-actions">
+        <button class="btn-cancel" data-action="closeModal" data-modal-id="modal-add-item">取消</button>
+        <button class="btn-confirm" id="modal-add-confirm">确认添加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 导入普世同祷数据对话框 -->
+  <div class="modal-overlay" id="modal-import-prayer">
+    <div class="modal">
+      <h3>导入普世同祷数据</h3>
+      <p>选择"普世同祷"数据文件（JSON格式）</p>
+      <input type="file" id="import-file-prayer" accept=".json">
+      <div class="modal-actions">
+        <button class="btn-cancel" data-action="closeModal" data-modal-id="modal-import-prayer">取消</button>
+        <button class="btn-confirm" data-action="doImportPrayer">导入</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 导入其他数据对话框 -->
+  <div class="modal-overlay" id="modal-import-other">
+    <div class="modal">
+      <h3>导入其他数据</h3>
+      <p>选择"其他数据"文件（JSON格式）</p>
+      <input type="file" id="import-file-other" accept=".json">
+      <div class="modal-actions">
+        <button class="btn-cancel" data-action="closeModal" data-modal-id="modal-import-other">取消</button>
+        <button class="btn-confirm" data-action="doImportOther">导入</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=12"></script>
+</body>
+</html>

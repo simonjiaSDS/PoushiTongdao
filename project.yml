@@ -1,0 +1,38 @@
+name: PoushiTongdao
+options:
+  bundleIdPrefix: com.poushitongdao
+  deploymentTarget:
+    iOS: "13.0"
+  device: [iPhone, iPad]
+  developmentLanguage: Swift
+packages: {}
+targets:
+  PoushiTongdao:
+    type: application
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources:
+      - path: PoushiTongdao
+        files:
+          - exclude:
+              - index.html
+              - app.js
+              - style.css
+    resources:
+      - path: PoushiTongdao/index.html
+        type: file
+      - path: PoushiTongdao/app.js
+        type: file
+      - path: PoushiTongdao/style.css
+        type: file
+    settings:
+      INFOPLIST_FILE: PoushiTongdao/Info.plist
+      PRODUCT_BUNDLE_IDENTIFIER: com.poushitongdao.app
+      PRODUCT_NAME: PoushiTongdao
+      SWIFT_VERSION: "5.0"
+      MAIN_STORYBOARD: ""
+      UIMAIN_STORYBOARD_FILE: ""
+    dependencies:
+      - framework: System/Library/Frameworks/WebKit.framework
+      - sdk: UIKit
+      - sdk: Foundation
