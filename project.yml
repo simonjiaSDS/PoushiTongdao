@@ -34,5 +34,3 @@ targets:
       UIMAIN_STORYBOARD_FILE: ""
     dependencies:
       - framework: System/Library/Frameworks/WebKit.framework
-      - sdk: UIKit
-      - sdk: Foundation
