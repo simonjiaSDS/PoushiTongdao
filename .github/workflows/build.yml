@@ -18,22 +18,42 @@ jobs:
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
       - name: List available simulators
         run: xcrun simctl list devices available | grep -E "iPhone|iPad" | head -10
 
-      - name: Build iOS App (Simulator)
+      - name: Build iOS App
+        run: |
+          xcodebuild -project PoushiTongdao.xcodeproj \
+            -scheme PoushiTongdao \
+            -configuration Debug \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Build for Release (Device)
         run: |
           xcodebuild -project PoushiTongdao.xcodeproj \
             -scheme PoushiTongdao \
             -configuration Release \
-            -destination 'generic/platform=iOS Simulator' \
+            -destination 'generic/platform=iOS' \
             -derivedDataPath ./DerivedData \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Upload build artifacts
+      - name: Create .app package
+        run: |
+          mkdir -p ./App/PoushiTongdao.app
+          cp -R ./DerivedData/Build/Products/Release-iphoneos/PoushiTongdao.app ./App/
+
+      - name: Upload .app artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PoushiTongdao-build
-          path: ./DerivedData/Build/Products/Release-iphonesimulator/
+          name: PoushiTongdao.app
+          path: ./App/PoushiTongdao.app/
           retention-days: 7
