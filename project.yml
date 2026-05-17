@@ -5,6 +5,7 @@ options:
     iOS: "13.0"
   device: [iPhone, iPad]
   developmentLanguage: Swift
+  xcodeVersion: "15.4"
 packages: {}
 targets:
   PoushiTongdao:
