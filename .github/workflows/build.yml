@@ -18,16 +18,10 @@ jobs:
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
-      - name: Install XcodeGen
-        run: brew install xcodegen
-
-      - name: Generate Xcode project
-        run: xcodegen generate
-
       - name: List available simulators
         run: xcrun simctl list devices available | grep -E "iPhone|iPad" | head -10
 
-      - name: Build iOS App
+      - name: Build iOS App (Simulator)
         run: |
           xcodebuild -project PoushiTongdao.xcodeproj \
             -scheme PoushiTongdao \
@@ -37,27 +31,9 @@ jobs:
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Create export directory
-        run: mkdir -p ./output
-
-      - name: Export IPA
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath ./DerivedData/Build/Products/Release-iphoneos/*.xcarchive \
-            -exportPath ./output \
-            -exportOptionsPlist ./ExportOptions.plist \
-            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-
-      - name: Upload IPA artifact
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: PoushiTongdao-ipa
-          path: ./output/*.ipa
-          retention-days: 30
-
-      - name: Upload xcarchive
-        uses: actions/upload-artifact@v4
-        with:
-          name: PoushiTongdao-xcarchive
-          path: ./DerivedData/Build/Products/Release-iphoneos/*.xcarchive
-          retention-days: 30
+          name: PoushiTongdao-build
+          path: ./DerivedData/Build/Products/Release-iphonesimulator/
+          retention-days: 7
