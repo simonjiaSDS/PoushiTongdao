@@ -18,25 +18,23 @@ jobs:
           sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
-      - name: Install XcodeGen
-        run: brew install xcodegen
-
-      - name: Generate Xcode project
-        run: xcodegen generate
+      - name: Regenerate Xcode project
+        run: python3 generate_xcodeproj.py
 
       - name: List available simulators
         run: xcrun simctl list devices available | grep -E "iPhone|iPad" | head -10
 
-      - name: Build iOS App
+      - name: Build iOS App (Debug Simulator)
         run: |
           xcodebuild -project PoushiTongdao.xcodeproj \
             -scheme PoushiTongdao \
             -configuration Debug \
             -destination 'platform=iOS Simulator,name=iPhone 15' \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            SWIFT_VERSION=5.0 \
             build
 
-      - name: Build for Release (Device)
+      - name: Build iOS App (Release Device)
         run: |
           xcodebuild -project PoushiTongdao.xcodeproj \
             -scheme PoushiTongdao \
@@ -44,11 +42,12 @@ jobs:
             -destination 'generic/platform=iOS' \
             -derivedDataPath ./DerivedData \
             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+            SWIFT_VERSION=5.0 \
             build
 
       - name: Create .app package
         run: |
-          mkdir -p ./App/PoushiTongdao.app
+          mkdir -p ./App
           cp -R ./DerivedData/Build/Products/Release-iphoneos/PoushiTongdao.app ./App/
 
       - name: Upload .app artifact
